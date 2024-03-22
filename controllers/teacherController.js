@@ -1,22 +1,24 @@
 import wrapperAsync from "../decorators/controllerWrapper.js";
 import Teachers from "../models/Teachers.js";
 
-// const getAll = wrapperAsync(async (req, res) => {
-//   const { _id: owner } = req.user;
-//   const { page = 1, limit = 10 } = req.query;
-//   const skip = (page - 1) * limit;
-//   const result = await Teachers.find({ owner }, "-createdAt -updatedAt", {
-//     skip,
-//     limit,
-//   });
-//   const total = await Teachers.countDocuments({ owner });
-//   res.json({ result, total });
-// });
-
 const getAll = async (req, res) => {
   const result = await Teachers.find({}, "-createdAt -updatedAt");
   res.json(result);
 };
+
+//// ================= pagination
+
+// const getAll = async (req, res, page, limit) => {
+//     const skip = (page - 1) * limit;
+//     const result = await Teachers.find({ owner }, "-createdAt -updatedAt", {
+//       skip,
+//       limit,
+//     });
+//     const total = await Teachers.countDocuments({ owner });
+//     res.json({ result, total });
+//   };
+
+/// ======================
 
 // const getById = wrapperAsync(async (req, res) => {
 //   const { userId } = req.params;
@@ -29,19 +31,18 @@ const getAll = async (req, res) => {
 // });
 
 const updateTeacher = wrapperAsync(async (req, res) => {
-    const { teacherId } = req.params;
-    const { _id: owner } = req.user;
-    const result = await Contact.findOneAndUpdate(
-      { _id: teacherId, owner },
-      req.body
-    );
-    if (!result) {
-      throw HttpError(404, `Teacher with id=${teacherId} not found`);
-    }
-  
-    res.json(result);
-  });
+  const { teacherId } = req.params;
+  const { _id: owner } = req.user;
+  const result = await Contact.findOneAndUpdate(
+    { _id: teacherId, owner },
+    req.body
+  );
+  if (!result) {
+    throw HttpError(404, `Teacher with id=${teacherId} not found`);
+  }
 
+  res.json(result);
+});
 
 const addToFavorites = wrapperAsync(async (req, res) => {
   const { teacherId } = req.params;

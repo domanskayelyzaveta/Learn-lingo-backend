@@ -1,6 +1,5 @@
 import express from "express";
 import ctrl from "../controllers/teacherController.js";
-import authenticate from "../middlewares/authenticate.js";
 import isValidID from "../middlewares/isValidId.js";
 import { updateFavoriteSchema } from "../models/Teachers.js";
 import isEmptyBody from "../middlewares/isEmptyBody.js";
