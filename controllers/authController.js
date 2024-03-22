@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import HttpError from "../helpers/httpError.js";
-import ctrlWrapper from "../decorators/controllerWrapper.js"
+import ctrlWrapper from "../decorators/controllerWrapper.js";
 import User from "../models/User.js";
 import dotenv from "dotenv";
 
@@ -32,7 +32,7 @@ const signup = async (req, res) => {
 
 const signin = async (req, res) => {
   const { email, password } = req.body;
-  console.log("email:",email);
+  console.log("email:", email);
   console.log("password:", password);
   const user = await User.findOne({ email });
   if (!user) {
@@ -52,7 +52,6 @@ const signin = async (req, res) => {
 
   const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "24h" });
 
-
   await User.findByIdAndUpdate(id, { token });
 
   res.json({
@@ -64,8 +63,17 @@ const signin = async (req, res) => {
   });
 };
 
+const signout = async (req, res) => {
+  const { _id } = req.user;
+  await User.findByIdAndUpdate(_id, { token: "" });
+
+  res.json({
+    message: "Logout success",
+  });
+};
 
 export default {
   signup: ctrlWrapper(signup),
   signin: ctrlWrapper(signin),
+  signout: ctrlWrapper(signout),
 };

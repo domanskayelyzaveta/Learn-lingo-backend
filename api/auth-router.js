@@ -4,6 +4,7 @@ import isEmptyBody from "../middlewares/isEmptyBody.js";
 import validateBody from "../decorators/validateBody.js";
 import { userSignInSchema, userSignupSchema } from "../models/User.js";
 import authController from "../controllers/authController.js";
+import authenticate from "../middlewares/authenticate.js";
 
 const authRouter = express.Router();
 
@@ -21,9 +22,7 @@ authRouter.post(
   authController.signin
 );
 
-/// authRouter.post("/current", authenticate, authController.getCurrent);
-
-authRouter.post("/logout", authenticate, authController.logout);
+authRouter.post("/logout", authenticate, authController.signout);
 
 
 export default authRouter;
