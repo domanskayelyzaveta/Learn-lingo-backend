@@ -60,7 +60,7 @@ const teacherSchema = new Schema(
 );
 
 teacherSchema.post("save", handleMongooseError);
-// teacherSchema.pre("findOneAndUpdate", addUpdateSetting);
+// teacherSchema.pre("findOneAndUpdate", addUpdateSetting); **
 // teacherSchema.post("findOneAndUpdate", handleMongooseError);
 
 export const updateFavoriteSchema = Joi.object({
