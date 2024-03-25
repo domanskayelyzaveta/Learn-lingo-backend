@@ -7,8 +7,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const { JWT_SECRET, BASE_URL, BASE_URL_NEW } = process.env;
-console.log("JWT_SECRET:", JWT_SECRET);
+const { JWT_SECRET } = process.env;
 
 const signup = async (req, res) => {
   const { email, password } = req.body;
@@ -32,8 +31,6 @@ const signup = async (req, res) => {
 
 const signin = async (req, res) => {
   const { email, password } = req.body;
-  console.log("email:", email);
-  console.log("password:", password);
   const user = await User.findOne({ email });
   if (!user) {
     throw HttpError(401, "Email or password invalid");
