@@ -10,21 +10,27 @@ const { JWT_SECRET } = process.env;
 
 const authenticate = async (req, res, next) => {
   const { authorization } = req.headers;
+  console.log("REQ HEADERS::",req.headers );
   if (!authorization) {
     throw HttpError(401, "Authorization headers not define");
   }
   const [bearer, token] = authorization.split(" ");
+  console.log("TOKEN",token);
+  console.log("Bearer",bearer);
   if (bearer !== "Bearer") {
     throw HttpError(401);
   }
   try {
     const { id } = jwt.verify(token, JWT_SECRET);
     const user = await User.findById(id);
+    console.log("user::", user);
+    console.log("userTOKEN::", user.token);
     if (!user || !user.token) {
       throw HttpError(401, "User not found");
     }
 
     req.user = user;
+    console.log("USER::", user);
 
     next();
   } catch (error) {
