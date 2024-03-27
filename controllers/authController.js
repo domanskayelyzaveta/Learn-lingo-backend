@@ -60,17 +60,16 @@ const signin = async (req, res) => {
   });
 };
 
-const signout = async (req, res) => {
+const logout = async (req, res) => {
   const { _id } = req.user;
   await User.findByIdAndUpdate(_id, { token: "" });
 
-  res.json({
-    message: "Logout success",
-  });
+  res.json({ message: "Logout success" });
 };
+
 
 export default {
   signup: ctrlWrapper(signup),
   signin: ctrlWrapper(signin),
-  signout: ctrlWrapper(signout),
+  logout: ctrlWrapper(logout),
 };
